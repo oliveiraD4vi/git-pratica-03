@@ -1,26 +1,55 @@
 pipeline {
   agent any
   stages {
-    stage('Inicialization') {
+    stage('Build') {
       steps {
-        echo 'Pipeline started'
-        mail(subject: '[Jenkins] Pipeline configuration', body: 'The Pipeline for the project GIT-PRATICA-03 was started', to: 'oliveiradavi@alu.ufc.br')
+        echo 'Pipeline build started'
       }
     }
 
     stage('Test') {
-      steps {
-        echo 'Testing fase'
-        sleep(time: 1, unit: 'MINUTES')
-        build(job: 'unicorn-test', propagate: true)
+      parallel {
+        stage('Firefox') {
+          steps {
+            echo 'Testing on Firefox'
+            sleep(time: 30, unit: 'SECONDS')
+            build(job: 'unicorn-test', propagate: true)
+          }
+        }
+
+        stage('Chrome') {
+          steps {
+            echo 'Testing on Chrome'
+            sleep 30
+            build 'unicorn-test'
+          }
+        }
+
+        stage('Opera') {
+          steps {
+            echo 'Testing on Opera'
+            sleep 30
+            build 'unicorn-test'
+          }
+        }
+
       }
     }
 
     stage('Deploy') {
+      when {
+        branch 'master'
+      }
       steps {
-        input 'Waiting for admin'
         echo 'Deploy started'
-        mail(subject: '[Jenkins] Rodando deploy', body: 'Deploy successful', to: 'elielcosta@alu.ufc.br')
+        input 'Waiting for admin...'
+        emailext(subject: '[Pipeline] Deploy', body: 'Deploy sccessful!')
+      }
+    }
+
+    stage('CleanUp') {
+      steps {
+        echo 'Cleaning code'
       }
     }
 
