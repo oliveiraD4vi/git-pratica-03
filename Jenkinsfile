@@ -8,6 +8,12 @@ pipeline {
     }
 
     stage('Test') {
+      when {
+        expression {
+          BRANCH_NAME == 'jenkins-test' || BRANCH_NAME == 'master'
+        }
+
+      }
       parallel {
         stage('Firefox') {
           steps {
@@ -38,7 +44,10 @@ pipeline {
 
     stage('Deploy') {
       when {
-        branch 'master'
+        expression {
+          BRANCH_NAME == 'master'
+        }
+
       }
       steps {
         echo 'Deploy started'
