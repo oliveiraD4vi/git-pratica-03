@@ -43,13 +43,15 @@ pipeline {
       steps {
         echo 'Deploy started'
         input 'Waiting for admin...'
-        emailext(subject: '[Pipeline] Deploy', body: 'Deploy sccessful!')
+        mail(subject: '[Pipeline] Deploy stage', body: 'Deployment successful!', to: 'elielcosta@alu.ufc.br')
       }
     }
 
     stage('CleanUp') {
       steps {
         echo 'Cleaning code'
+        input 'Waiting for the admin...'
+        echo 'Completed!'
       }
     }
 
