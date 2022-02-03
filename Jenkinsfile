@@ -17,9 +17,6 @@ pipeline {
     }
 
     stage('Deploy') {
-      when {
-        branch 'master'
-      }
       steps {
         input 'Waiting for admin'
         echo 'Deploy started'
