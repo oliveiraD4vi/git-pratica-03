@@ -1,17 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('Inicialização') {
+    stage('Inicialization') {
       steps {
         echo 'Pipeline started'
         mail(subject: '[Jenkins] Pipeline configuration', body: 'The Pipeline for the project GIT-PRATICA-03 was started', to: 'oliveiradavi@alu.ufc.br')
       }
     }
 
-    stage('Teste') {
+    stage('Test') {
       steps {
         echo 'Testing fase'
-        sleep(time: 10, unit: 'MINUTES')
+        sleep(time: 1, unit: 'MINUTES')
         build(job: 'unicorn-test', propagate: true)
       }
     }
@@ -21,8 +21,8 @@ pipeline {
         branch 'master'
       }
       steps {
-        input 'Waiting for the admin'
         echo 'Deploy started'
+        mail(subject: '[Jenkins] Rodando deploy', body: 'Deploy successful', to: 'elielcosta@alu.ufc.br')
       }
     }
 
