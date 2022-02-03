@@ -21,7 +21,6 @@ pipeline {
         branch 'master'
       }
       steps {
-        input 'Wait for the admin'
         echo 'Deploy started'
         mail(subject: '[Jenkins] Rodando deploy', body: 'Deploy successful', to: 'elielcosta@alu.ufc.br')
       }
